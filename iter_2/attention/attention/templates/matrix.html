@@ -1,0 +1,68 @@
+<!-- matrix.html -->
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Attention Matrix</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="navbar">
+        <!-- Logo on the left -->
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+    
+        <!-- Menu items on the right -->
+        <div class="navbar-menu">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('matrix') }}">Attention Matrix</a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th> / </th>
+                    {% for token in tokens %}
+                        <th>{{ token }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(tokens|length) %}
+                    {% set token_line = tokens[i] %}
+                    {% set attn_line = attention_matrix.split('\n')[i].split() %}
+                    <tr>
+                        <td>{{ token_line }}</td>
+                        {% for value in attn_line %}
+                            {% set numeric_value = value|float %}
+                            <td class="gradient-cell" style="background: rgba(255, 0, 0, {{ numeric_value }});">{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

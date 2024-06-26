@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Attention Data</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js" integrity="sha512-VW8/i4IZkHxdD8OlqNdF7fGn3ba0+lYqag+Uy4cG6BtJ/LIr8t23s/vls70pQ41UasHH0tL57GQfKDApqc9izA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- Inside the <head> tag of your HTML file -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    
+    </head>
+
+    <body>
+        
+        <div class="navbar" style="width: auto;">
+            <!-- Logo on the left -->
+            <div class="navbar-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+            </div>
+        
+            <!-- Menu items on the right -->
+            <div class="navbar-menu">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+
+        <div class="container">
+        <div class = "bodyBox" style ="height: 100%; width: auto; margin-right: 50px;">
+
+        <h1>Attention Data</h1>
+        
+        <h2>Tokens:</h2>
+        <p>{{ attention_data.tokens }}</p>
+
+        <h2>Attention Indices:</h2>
+        <p>{{ attention_data.attn_indices }}</p>
+
+        <h2>Attention Values:</h2>
+        <p>{{ attention_data.attn_values }}</p>
+
+        
+        </div>
+        </div>
+    </body>
+</html>

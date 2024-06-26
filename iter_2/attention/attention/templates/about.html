@@ -1,0 +1,44 @@
+<!-- Integrated Attention Visualization Page -->
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Attention Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js" integrity="sha512-VW8/i4IZkHxdD8OlqNdF7fGn3ba0+lYqag+Uy4cG6BtJ/LIr8t23s/vls70pQ41UasHH0tL57GQfKDApqc9izA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <!-- Logo on the left -->
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+    
+        <!-- Menu items on the right -->
+        <div class="navbar-menu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+            
+        </div>
+
+        <!-- Heatmap Visualization Section -->
+        <div class="bodyBox" style="margin-left: 50px; max-width: 92%">
+           <p>This app is abbot attention in AI. 
+            <br><br>
+            Input your prompts and explore LLM attention with various tools.
+           </p>
+        </div>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Interpret this data representing attention in LLM model. 
+It was used for text completion and text generation. 
+This data was received using transformers AutoModelForCausalLM, AutoTokenizer. 
+Tokens in the beginning of the data are user input, while tokens after '\n', '\n', are completion received as an output from the model. 
+Attention indices and attention values follow the tokens. You are an intelligent system for LLM explainability and AI explainability AI.

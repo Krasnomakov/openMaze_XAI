@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Attention Alignment</title>
+    <!-- Include D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Inside the <head> tag of your HTML file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Attention Alignment</h1>
+
+        <!-- Display attention alignment chart -->
+        <div id="attentionAlignmentChart"></div>
+
+        <script type="text/javascript">
+            // Assuming attentionAlignmentData is a dictionary with token labels and mean attention alignment values
+            const attentionAlignmentData = {{ attention_alignment_data | tojson | safe }};
+            console.log('Attention Alignment Data:', attentionAlignmentData);
+
+            // Set up the SVG container
+            const svg = d3.select("#attentionAlignmentChart")
+                .append("svg")
+                .attr("width", 800)
+                .attr("height", 400);
+
+            // Set up the scales for the chart
+            const xScale = d3.scaleBand()
+                .domain(Object.keys(attentionAlignmentData))
+                .range([0, 800])
+                .padding(0.1);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(Object.values(attentionAlignmentData))])
+                .range([0, 400]);
+
+            // Create circles for each token
+            svg.selectAll("circle")
+                .data(Object.entries(attentionAlignmentData))
+                .enter()
+                .append("circle")
+                .attr("cx", d => xScale(d[0]) + xScale.bandwidth() / 2)
+                .attr("cy", d => 400 - yScale(d[1]))
+                .attr("r", 5)  // Adjust the radius based on your preference
+                .attr("fill", "steelblue");
+
+            // Add labels for tokens
+            svg.selectAll("text.tokens")
+                .data(Object.entries(attentionAlignmentData))
+                .enter()
+                .append("text")
+                .text(d => d[0])
+                .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
+                .attr("y", 400 + 15)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "black")
+                .attr("class", "tokens");
+
+            // Display attention alignment chart
+            console.log('Attention Alignment Data:', attentionAlignmentData);
+
+            // Add labels for mean attention alignment values
+            svg.selectAll("text.values")
+                .data(Object.entries(attentionAlignmentData))
+                .enter()
+                .append("text")
+                .text(d => d[1].toFixed(2))
+                .attr("x", d => xScale(d[0]) + xScale.bandwidth() / 2)
+                .attr("y", d => 400 - yScale(d[1]) - 5)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "white")
+                .attr("class", "values");
+
+            // Add x-axis label
+            svg.append("text")
+                .attr("x", 400)
+                .attr("y", 400 + 40)
+                .attr("text-anchor", "middle")
+                .text("Tokens")
+                .attr("font-size", "14px")
+                .attr("fill", "black");
+
+            // Add y-axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -200)
+                .attr("y", 10)
+                .attr("text-anchor", "middle")
+                .text("Mean Attention Alignment")
+                .attr("font-size", "14px")
+                .attr("fill", "black");
+        </script>
+
+    </div>
+</body>
+</html>

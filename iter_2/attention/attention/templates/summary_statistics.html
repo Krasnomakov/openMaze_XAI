@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Summary Statistics</title>
+    <!-- Include any additional styling or scripts if needed -->
+</head>
+
+<style>
+    /* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.summaryStatistics {
+    margin-top: 20px;
+}
+
+#summaryTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#summaryTable th, #summaryTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#summaryTable th {
+    background-color: #f2f2f2;
+}
+
+.highlight-row:hover {
+    background-color: lightgray;
+}
+
+</style>
+
+<body>
+    <!-- Display summary statistics -->
+    <div class="summaryStatistics">
+        <h2>Summary Statistics</h2>
+        <table id="summaryTable">
+            <tr>
+                <th>Token</th>
+                <th>Mean Attention</th>
+            </tr>
+            {% for token, mean_attention in summary_data.items() %}
+            <tr class="highlight-row" data-mean-attention="{{ mean_attention }}">
+                <td>{{ token }}</td>
+                <td>{{ mean_attention }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Include JavaScript for highlighting 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".highlight-row");
+
+            rows.forEach(row => {
+                const meanAttention = parseFloat(row.getAttribute("data-mean-attention"));
+                highlightRow(row, meanAttention);
+            });
+
+            function highlightRow(row, meanAttention) {
+                if (meanAttention < 20) {
+                    row.style.backgroundColor = "red";
+                } else if (meanAttention <= 40) {
+                    row.style.backgroundColor = "orange";
+                } else if (meanAttention <= 50) {
+                    row.style.backgroundColor = "yellow";
+                } else if (meanAttention <= 70) {
+                    row.style.backgroundColor = "lightgreen";
+                } else if (meanAttention <= 80) {
+                    row.style.backgroundColor = "green";
+                } else if (meanAttention <= 90) {
+                    row.style.backgroundColor = "lightblue";
+                } else {
+                    row.style.backgroundColor = "lightpurple";
+                }
+            }
+        });
+    </script>
+    -->
+</body>
+
+</html>

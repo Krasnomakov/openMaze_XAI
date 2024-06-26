@@ -1,0 +1,246 @@
+<!-- Integrated Attention Visualization Page -->
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Attention Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js" integrity="sha512-VW8/i4IZkHxdD8OlqNdF7fGn3ba0+lYqag+Uy4cG6BtJ/LIr8t23s/vls70pQ41UasHH0tL57GQfKDApqc9izA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <!-- Logo on the left -->
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+    
+        <!-- Menu items on the right -->
+        <div class="navbar-menu">
+            <a href="#">Home</a>
+            <a href="/about" target="_blank" rel="noopener noreferrer">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Attention Tracing Section -->
+        <div class="bodyBox">
+            <h1>Attention Tracing</h1>
+            <label for="userInput">Enter your text:</label>
+                    
+            <form id="inputForm">
+                <div class="form-group">
+                    <textarea id="userInput" name="userInput" rows="4" cols="50" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Submit" onclick="submitForm()" class="button">
+                </div>
+            </form>
+            
+            <h1>Output</h1>
+            <label for="userInput">Interactive visualization will be displayed below:</label>
+            <p id="content"></p>
+            <script type="text/javascript">
+                const content = document.querySelector('#content');
+        
+                function submitForm() {
+                    const userInput = document.getElementById('userInput').value;
+                    fetch('/process_input', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `user_input=${encodeURIComponent(userInput)}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => displayAttention(data));
+                }
+        
+                function displayAttention(data) {
+                    const { tokens, attn_indices, attn_values } = data;
+                    content.innerHTML = '';
+                    for (let i = 0; i < tokens.length; i++) {
+                        const token = document.createElement('span');
+                        token.innerText = tokens[i];
+                        if (attn_indices[i]) {
+                            token.classList.add('prompt');
+                        }
+                        token.addEventListener('click', () => handleTokenClick(i));
+                        content.appendChild(token);
+                    }
+
+                    const isPrompt = row => row.filter(x => x).length === 1;
+                    const fromSparse = (size, indices, values) => {
+                        const xs = Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
+                        indices.forEach(([i, j], x) => {
+                            xs[i][j] = values[x];
+                        });
+                        return xs;
+                    };
+                    const redraw = () => {
+                        if (!window.getSelection().isCollapsed) {
+                            const sel = window.getSelection();
+                            const fromNode = sel.anchorNode.parentNode;
+                            const toNode = sel.extentNode.parentNode;
+                            const fromIdx = Array.from(content.children).indexOf(fromNode);
+                            const toIdx = Array.from(content.children).indexOf(toNode);
+                            const range = [fromIdx, toIdx];
+                            range.sort((a, b) => a - b);
+                            const vec = tokens.map((x, i) => (i >= range[0] && i <= range[1]) ? 1 : 0);
+                            const attn_vec = math.multiply(vec, fromSparse(tokens.length, attn_indices, attn_values));
+                            Array.from(content.children).forEach((node, i) => {
+                                const attn = attn_vec[i];
+                                node.style.setProperty('--attention', Math.min(1, attn * 10).toFixed(2));
+                            });
+                        } else {
+                            Array.from(content.children).forEach((node, i) => {
+                                node.style.setProperty('--attention', '0');
+                            });
+                        }
+                    };
+                    document.addEventListener('mousemove', redraw);
+                    document.addEventListener('mouseup', redraw);
+                }
+        
+                function handleTokenClick(index) {
+                    // Fetch detailed attention information for the clicked token
+                    fetch('/get_attention_details?token_index=' + index)
+                        .then(response => response.json())
+                        .then(data => displayAttentionDetails(data));
+                }
+        
+                function displayAttentionDetails(details) {
+                    // Display detailed attention information in a tooltip or modal
+                    // You can customize this part based on your UI design
+                    alert('Detailed Attention Information:\n' + JSON.stringify(details));
+                }
+            </script>
+            
+        </div>
+
+        <!-- Heatmap Visualization Section -->
+        <div class="bodyBox" style="margin-left: 5px;">
+            <h1>Attention Heatmap</h1>
+            <label for="userInputHeatmap">Enter your text:</label>
+                    
+            <form id="inputFormHeatmap">
+                <div class="form-group">
+                    <textarea id="userInputHeatmap" name="userInputHeatmap" rows="4" cols="50" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Submit" onclick="submitFormHeatmap()" class="button">
+                </div>
+            </form>
+            <h1>Output</h1>
+            <label for="userInputHeatmap">Heatmap will be displayed below:</label>
+            <p id="contentHeatmap"></p>
+            <script type="text/javascript">
+                const contentHeatmap = document.querySelector('#contentHeatmap');
+
+                function submitFormHeatmap() {
+                    const userInputHeatmap = document.getElementById('userInputHeatmap').value;
+                    fetch('/process_input', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `user_input=${encodeURIComponent(userInputHeatmap)}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => displayAttentionHeatmap(data));
+                }
+
+                function displayAttentionHeatmap(data) {
+                    const { tokens, attn_indices, attn_values } = data;
+                    contentHeatmap.innerHTML = '';
+
+                    // Define a color scale for the heatmap
+                    const colorScale = d3.scaleSequential(d3.interpolateYlOrRd).domain([0, 1]);
+
+                    for (let i = 0; i < tokens.length; i++) {
+                        const token = document.createElement('span');
+                        token.innerText = tokens[i];
+
+                        // Set the background color based on the attention value
+                        const attentionValue = attn_values[i];
+                        const color = colorScale(attentionValue);
+                        token.style.backgroundColor = color;
+
+                        if (attn_indices[i]) {
+                            token.classList.add('prompt');
+                        }
+                        contentHeatmap.appendChild(token);
+                    }
+                    const isPrompt = row => row.filter(x => x).length === 1;
+                    const fromSparse = (size, indices, values) => {
+                        const xs = Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
+                        indices.forEach(([i, j], x) => {
+                            xs[i][j] = values[x];
+                        });
+                        return xs;
+                    };
+                    const redraw = () => {
+                        if (!window.getSelection().isCollapsed) {
+                            const sel = window.getSelection();
+                            const fromNode = sel.anchorNode.parentNode;
+                            const toNode = sel.extentNode.parentNode;
+                            const fromIdx = Array.from(contentHeatmap.children).indexOf(fromNode);
+                            const toIdx = Array.from(contentHeatmap.children).indexOf(toNode);
+                            const range = [fromIdx, toIdx];
+                            range.sort((a, b) => a - b);
+                            const vec = tokens.map((x, i) => (i >= range[0] && i <= range[1]) ? 1 : 0);
+                            const attn_vec = math.multiply(vec, fromSparse(tokens.length, attn_indices, attn_values));
+                            Array.from(contentHeatmap.children).forEach((node, i) => {
+                                const attn = attn_vec[i];
+                                node.style.setProperty('--attention', Math.min(1, attn * 5).toFixed(2));
+                            });
+                        } else {
+                            Array.from(contentHeatmap.children).forEach((node, i) => {
+                                node.style.setProperty('--attention', '0');
+                            });
+                        }
+                    };
+                    document.addEventListener('mousemove', redraw);
+                    document.addEventListener('mouseup', redraw);
+                }
+            </script>
+        </div>
+
+        <!-- XAI Tools Section -->
+        <div class="verticalBlock">
+            <h1>XAI tools</h1>
+            
+            <a href="/display_attention" target="_blank" rel="noopener noreferrer">
+            <button class="button">Raw Data</button>
+            </a>
+
+            <a href="/matrix" target="_blank" rel="noopener noreferrer">
+                <button class="button">Attention Matrix</button>
+                </a>
+
+            <a href="/summary_statistics" target="_blank" rel="noopener noreferrer">
+                <button class="button">Mean Attention</button>
+            </a>
+
+            <a href="/median_attention" target="_blank" rel="noopener noreferrer">
+                <button class="button">Median Attention</button>
+            </a>
+
+            <a href="/attention_distribution" target="_blank" rel="noopener noreferrer">
+                <button class="button">Mean Distribution</button>
+            </a>
+
+            <a href="/attention_alignment" target="_blank" rel="noopener noreferrer">
+                <button class="button">Mean Alignment</button>
+            </a>
+
+
+        </div>
+
+    </div>
+</body>
+</html>

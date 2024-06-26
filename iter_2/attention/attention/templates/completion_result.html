@@ -1,0 +1,45 @@
+<!-- completion_result.html -->
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Completion Result</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <!-- Logo on the left -->
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+    
+        <!-- Menu items on the right -->
+        <div class="navbar-menu">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('generate_completion') }}">Generate Completion</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Completion Result</h1>
+        <p>Decoded Text: {{ decoded }}</p>
+        <p>Tokenized Text: {{ tokenized }}</p>
+
+        <!-- Display Attention Matrix (customize as needed) -->
+        <h2>Attention Matrix</h2>
+        <pre>{{ attn_matrix }}</pre>
+
+        <!-- Display Attention Distribution (customize as needed) -->
+        <h2>Attention Distribution</h2>
+        <pre>{{ attn_distribution }}</pre>
+
+        <!-- Display Attention Alignment (customize as needed) -->
+        <h2>Attention Alignment</h2>
+        <pre>{{ attn_alignment }}</pre>
+
+        <!-- Display Median Attention (customize as needed) -->
+        <h2>Median Attention</h2>
+        <pre>{{ median_attn }}</pre>
+    </div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+/* styles.css */
+
+/* Additional styles for the navbar */
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow like body box */
+    border-radius: 10px;
+    margin: 5vh;
+    margin-bottom: 2.5vh;
+    padding: 2vh; /* Add padding for better appearance */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif; /* Same font as bodyBox */
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo img {
+    width: 250px; /* Adjust the size of your logo */
+    margin-right: 10px; /* Adjust the spacing between logo and text */
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-menu a {
+    color: #4d4d4d; /* Match the text color to the bodyBox */
+    text-decoration: none;
+    margin-left: 20px; /* Adjust the spacing between menu items */
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+p {
+    border: 0.5px solid black;
+    margin: 1em auto;
+    color: #4d4d4d;
+    font-family: sans-serif;
+    font-size: 19px;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 1.5em;
+    overflow-y: auto;
+    min-height: 200px; 
+    
+}
+
+label {
+    font-family: Arial, Helvetica, sans-serif; /* Same font as bodyBox */
+}
+
+h1 {
+    text-align: left;
+    margin-bottom: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+
+h2 {
+    text-align: left;
+    margin-bottom: 0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+
+.bodyBox {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin: 50px;
+    margin-top: 0px;
+    margin-right: 25px;
+    padding: 20px;
+    width: 100%;
+    min-height: 75vh;
+    height: auto;
+}
+
+textarea {
+    width: 98%;
+    min-width: 200px;
+    height: 10vh;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+userInput {
+    min-width: 200px;
+    min-height: 100px;
+
+}
+.form-group {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 15px; /* Adjust the margin as needed */
+}
+
+.buttonArea {
+    margin-bottom: 15px;
+}
+
+span {
+    background: #d2f4d3;
+}
+
+span.prompt {
+    --attention: 0;
+    background-color: rgba(185, 225, 244, var(--attention));
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.content-container {
+    display: flex; /* Ensure flex property is set */
+}
+
+
+
+.verticalBlock {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 20%;
+    margin: 50px;
+    margin-left: 0px;
+    margin-top: 0px;
+    padding: 20px;
+}
+
+
+.button {
+    background-color: #9937EE;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    min-width: 150px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #7a28cb; /* Change to the color you want when hovered */
+}
+
+.button:active {
+    animation: clickAnimation 0.3s forwards;
+}
+
+@keyframes clickAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .bodyBox {
+        margin-right: 0;
+        width: 100%;
+        max-width: 50vh;
+        margin-left: 0;
+    }
+
+    .verticalBlock {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    .navbar {
+        max-width: 50vh;
+    }
+
+    .navbar-menu a {
+        opacity: 0;
+    }
+
+    .verticalBlock {
+        flex-direction: column;
+        max-width: 50vh;
+    }
+
+    
+}
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    .navbar-logo img {
+        max-width: 150px;
+    }
+
+    .navbar-menu a {
+        margin-left: 10px;
+    }
+
+    .bodyBox {
+        margin: 20px 10px 0;
+        padding: 10px;
+        max-width: 20vh;
+    }
+
+    .verticalBlock {
+        margin: 20px 0 0;
+        padding: 10px;
+    }
+
+    textarea {
+        width: 100%;
+    }
+}

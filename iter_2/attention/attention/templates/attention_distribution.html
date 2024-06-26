@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Attention Distribution</title>
+    <!-- Include D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Inside the <head> tag of your HTML file -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .bar {
+            fill: steelblue;
+        }
+
+        .bar:hover {
+            fill: orange;
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Attention Distribution</h1>
+
+        <!-- Display attention distribution chart -->
+        <div id="attentionDistributionChart"></div>
+
+        <script type="text/javascript">
+            const attentionDistributionData = {{ attention_distribution_data | tojson | safe }};
+            console.log('Attention Distribution Data:', attentionDistributionData);
+
+            const margin = { top: 20, right: 20, bottom: 50, left: 40 },
+                width = 800 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+
+            // Sort the keys for proper order
+            const sortedKeys = Object.keys(attentionDistributionData).sort((a, b) => attentionDistributionData[b] - attentionDistributionData[a]);
+
+            // Set up the scales for the chart
+            const xScale = d3.scaleBand()
+                .domain(sortedKeys)
+                .range([0, width])
+                .padding(0.1);    
+
+            // Set up the scales for the chart to be displayed in an order they appear in attentionDistributionData
+            //const xScale = d3.scaleBand()
+            //    .domain(Object.keys(attentionDistributionData))
+            //    .range([0, width])
+            //    .padding(0.1);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(Object.values(attentionDistributionData))])
+                .range([height, 0]);
+
+            // Create SVG container
+            const svg = d3.select("#attentionDistributionChart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Create bars for each token
+            svg.selectAll(".bar")
+                .data(Object.entries(attentionDistributionData))
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", d => xScale(d[0]))
+                .attr("width", xScale.bandwidth())
+                .attr("y", d => yScale(d[1]))
+                .attr("height", d => height - yScale(d[1]))
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr('class', 'bar:hover');
+                    tooltip.style("visibility", "visible")
+                        .text(`${d[0]}: ${d[1].toFixed(2)}`);
+                })
+                .on("mousemove", function (event) {
+                    tooltip.style("top", (event.pageY - 10) + "px")
+                        .style("left", (event.pageX + 10) + "px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr('class', 'bar');
+                    tooltip.style("visibility", "hidden");
+                });
+
+            // Add x-axis
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale));
+
+            // Add y-axis
+            svg.append("g")
+                .call(d3.axisLeft(yScale));
+
+            // Add x-axis label
+            svg.append("text")
+                .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 20) + ")")
+                .style("text-anchor", "middle")
+                .text("Tokens");
+
+            // Add y-axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Attention Values");
+
+            // Tooltip
+            const tooltip = d3.select("body")
+                .append("div")
+                .attr("class", "tooltip")
+                .style("visibility", "hidden");
+        </script>
+    </div>
+</body>
+</html>

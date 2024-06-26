@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Median Attention</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<style>
+    /* Include any additional styling specific to median_attention.html */
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .medianAttentionValues {
+        margin-top: 20px;
+    }
+
+    #medianTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #medianTable th, #medianTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #medianTable th {
+        background-color: #f2f2f2;
+    }
+
+    .highlight-row:hover {
+        background-color: lightgray;
+    }
+</style>
+
+<body>
+    <!-- Display median attention values -->
+    <div class="medianAttentionValues">
+        <h2>Median Attention</h2>
+        <table id="medianTable">
+            <tr>
+                <th>Token</th>
+                <th>Median Attention</th>
+            </tr>
+            {% for token, median_attention in median_attention_data.items() %}
+                <tr class="highlight-row" data-median-attention="{{ median_attention }}">
+                    <td>{{ token }}</td>
+                    <td>{{ median_attention }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Add a button to go back to the main page -->
+    <a href="/">
+        <button class="button">Back to Main Page</button>
+    </a>
+
+    <!-- Include JavaScript for highlighting -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".highlight-row");
+    
+            rows.forEach(row => {
+                const medianAttention = parseFloat(row.getAttribute("data-median-attention"));
+                highlightRow(row, medianAttention);
+            });
+    
+            function highlightRow(row, medianAttention) {
+                const maxAttention = 1.0; // Assuming 1 is the highest attention value
+                const minColor = [255, 182, 193]; // Lightpink (RGB values)
+                const maxColor = [224, 102, 255]; // Lightpurple (RGB values)
+    
+                // Calculate the color based on attention value
+                const color = getColorGradient(medianAttention / maxAttention, minColor, maxColor);
+    
+                // Apply the calculated color to the background
+                row.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+            }
+    
+            function getColorGradient(value, color1, color2) {
+                // Calculate the RGB values for a gradient color
+                const r = Math.round(color1[0] + (color2[0] - color1[0]) * value);
+                const g = Math.round(color1[1] + (color2[1] - color1[1]) * value);
+                const b = Math.round(color1[2] + (color2[2] - color1[2]) * value);
+    
+                return [r, g, b];
+            }
+        });
+    </script>
+</body>
+
+</html>
