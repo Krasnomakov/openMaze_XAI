@@ -21,8 +21,8 @@ This app displays attention
 It allows user to input text 
 It can output raw data on a separate page 
 
-It uses partially the MIT licensed code by ....
-More info in pyproject.toml file 
+The idea was to use it with **Explainability** backend and interpret it with GPT-4.
+However, at the time of testing 
 
 ---
 
