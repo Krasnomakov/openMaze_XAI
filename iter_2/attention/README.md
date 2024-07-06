@@ -6,7 +6,7 @@
 - Frontend: HTML/CSS, JavaScript
 - Tested LLMs on interpreting raw attention data and got positive results with short inputs.
 
---
+
 **Quickstart**
 
 git clone [https://github.com/Krasnomakov/openMaze_XAI](https://github.com/Krasnomakov/openMaze_XAI.git)
@@ -16,6 +16,7 @@ cd openMaze_XAI/iter_2/Explainability/attention
 poetry install 
 poetry run flask --app attention run 
 
+
 This app displays attention 
 It allows user to input text 
 It can output raw data on a separate page 
@@ -24,6 +25,7 @@ It uses partially the MIT licensed code by ....
 More info in pyproject.toml file 
 
 ---
+
 #to allow automatic update of HTML without restarting the app
 
 poetry add flask-debugtoolbar 
