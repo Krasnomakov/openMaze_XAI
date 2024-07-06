@@ -21,10 +21,12 @@ This app displays attention
 It allows user to input text 
 It can output raw data on a separate page 
 
-The idea was to use it with **Explainability** backend and interpret it with GPT-4.
-However, at the time of testing the input exceeded GPT-4 capacity and local LLMs with vector DB were not productive enough on raw attention data. 
-Yet, Claude sometimes managed to handle all input and analyse attention correctly, provide insights into weights and token values.
+The idea was to use it with **LLM-Based Interpretability** backend and interpret it with GPT-4 or llama2/mistral.
+However, at the time of testing the input exceeded GPT-4 capacity and local LLMs with vector DB were not productive enough on raw attention data (MacBook M1 10 core 16GB RAM). 
 
+Yet, Claude AI sometimes managed to handle all input and analyse attention correctly, provide insights into weights and token values.
+
+Demo: https://vimeo.com/907273901/2297f9efb1
 ---
 
 #to allow automatic update of HTML without restarting the app

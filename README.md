@@ -1,6 +1,3 @@
-**iter_2:**
-- LLM attention visualisation full-stack app
-- Two versions for LLM-based interpretability backend
+**LLM-Based Interpretabilityy** - backend for LLM to interpret LLM attention with vector data base or openAI API
 
-Demo vide: https://vimeo.com/907273901/2297f9efb1 
-
+**Attention Visualization** - attention visualization web application with Flask, HTML/CSS and Javascript
