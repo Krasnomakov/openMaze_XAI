@@ -27,6 +27,7 @@ However, at the time of testing the input exceeded GPT-4 capacity and local LLMs
 Yet, Claude AI sometimes managed to handle all input and analyse attention correctly, provide insights into weights and token values.
 
 Demo: https://vimeo.com/907273901/2297f9efb1
+
 ---
 
 #to allow automatic update of HTML without restarting the app
