@@ -22,7 +22,8 @@ It allows user to input text
 It can output raw data on a separate page 
 
 The idea was to use it with **Explainability** backend and interpret it with GPT-4.
-However, at the time of testing 
+However, at the time of testing the input exceeded GPT-4 capacity and local LLMs with vector DB were not productive enough on raw attention data. 
+Yet, Claude sometimes managed to handle all input and analyse attention correctly, provide insights into weights and token values.
 
 ---
 
