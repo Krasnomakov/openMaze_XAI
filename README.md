@@ -1,11 +1,6 @@
-iter_2 folder contains a Flask application 
-
-- connect LLM models
-- input text
-- receive LLM output
-- visualise attention
-- use mean, median attention formulas
-- use heat map visualisation
-  
+**iter_2:**
+- LLM attention visualisation full-stack app
+- Two versions for LLM-based interpretability backend
 
 Demo vide: https://vimeo.com/907273901/2297f9efb1 
+
