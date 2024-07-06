@@ -32,4 +32,4 @@ Remember to not use debug mode or the debug toolbar in a production setting. The
 
 ##
 
-*Parts of the code forked from* https://github.com/mattneary/attention
+Parts of the code copied from https://github.com/mattneary/attention
