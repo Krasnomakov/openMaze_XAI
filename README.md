@@ -1,9 +1,9 @@
-**LLM-Based Interpretabilityy**
+**LLM-Based Interpretability:**
 
-backend for LLM to interpret LLM attention with vector data base or openAI API
+- backend for LLM to interpret LLM attention with vector data base or openAI API
 
 
 
-**Attention Visualization**
+**Attention Visualization:**
 
-attention visualization web application with Flask, HTML/CSS and Javascript
+- attention visualization web application with Flask, HTML/CSS and Javascript
